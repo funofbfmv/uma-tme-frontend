@@ -1,10 +1,14 @@
+// src/Components/ServicesSection.jsx
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 function ServicesSection({ categories }) {
+  const navigate = useNavigate();
+
   if (!categories || categories.length === 0) {
     return (
       <div className="text-center py-12">
-        <p className="text-gray-500 text-lg">Услуги скоро появятся</p>
+        <p className="text-gray-400">Услуги загружаются...</p>
       </div>
     );
   }
@@ -15,78 +19,65 @@ function ServicesSection({ categories }) {
         <div key={category.id} className="space-y-8">
           {/* Category Title */}
           <div className="text-center">
-            <h3 className="text-3xl font-bold text-white mb-2">
-              {category.title}
+            <h3 className="text-3xl font-bold text-white mb-3">
+              <span className="bg-gradient-to-r from-red-400 to-red-200 bg-clip-text text-transparent">
+                {category.title}
+              </span>
             </h3>
-            <div className="w-24 h-1 bg-gradient-to-r from-purple-500 to-cyan-500 mx-auto rounded-full"></div>
+            {category.description && (
+              <p className="text-gray-400 max-w-2xl mx-auto">
+                {category.description}
+              </p>
+            )}
           </div>
 
           {/* Services Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {category.services.map((service) => (
-              <div key={service.id} className="group relative">
+              <div
+                key={service.id}
+                onClick={() => navigate(`/service/${service.id}`)}
+                className="group relative cursor-pointer"
+              >
                 {/* Glow Effect */}
-                <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-cyan-600 rounded-xl blur opacity-0 group-hover:opacity-25 transition duration-500"></div>
+                <div className="absolute -inset-1 bg-gradient-to-r from-red-600/20 to-red-400/20 rounded-2xl blur opacity-0 group-hover:opacity-100 transition duration-500"></div>
                 
                 {/* Card */}
-                <div className="relative bg-slate-800/50 backdrop-blur-xl border border-white/10 rounded-xl hover:border-white/20 transition-all duration-300 overflow-hidden transform group-hover:-translate-y-1">
-                  <div className="p-6 space-y-4">
-                    {/* Icon and Title */}
-                    <div className="flex items-start gap-4">
-                      {service.icon ? (
-                        <div className="flex-shrink-0 w-14 h-14 bg-gradient-to-br from-purple-500/20 to-cyan-500/20 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform border border-white/10">
-                          <img
-                            src={service.icon}
-                            alt={service.title}
-                            className="w-8 h-8 object-contain"
-                          />
-                        </div>
-                      ) : (
-                        <div className="flex-shrink-0 w-14 h-14 bg-gradient-to-br from-purple-500 to-cyan-500 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
-                          <svg
-                            className="w-7 h-7 text-white"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                            />
-                          </svg>
-                        </div>
-                      )}
-                      <div className="flex-1">
-                        <h4 className="font-bold text-lg text-white group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-purple-400 group-hover:to-cyan-400 group-hover:bg-clip-text transition-all">
-                          {service.title}
-                        </h4>
-                        {service.is_featured && (
-                          <span className="inline-block mt-1 text-xs font-semibold text-purple-400 bg-purple-500/10 px-2 py-1 rounded border border-purple-500/20">
-                            Популярно
-                          </span>
-                        )}
-                      </div>
+                <div className="relative bg-zinc-950/80 backdrop-blur-xl border border-zinc-800/50 rounded-2xl p-8 h-full transform group-hover:-translate-y-2 transition-all duration-300">
+                  {/* Service Icon */}
+                  {service.icon ? (
+                    <div className="w-14 h-14 bg-gradient-to-br from-red-600 to-red-500 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform overflow-hidden">
+                      <img 
+                        src={service.icon} 
+                        alt={service.title}
+                        className="w-8 h-8 object-contain"
+                      />
                     </div>
+                  ) : (
+                    <div className="w-14 h-14 bg-gradient-to-br from-red-600 to-red-500 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                      <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                      </svg>
+                    </div>
+                  )}
 
-                    {/* Description */}
-                    {service.short_description && (
-                      <p className="text-gray-400 text-sm leading-relaxed">
-                        {service.short_description}
-                      </p>
-                    )}
+                  {/* Service Title */}
+                  <h4 className="text-xl font-bold text-white mb-3 group-hover:text-red-400 transition-colors">
+                    {service.title}
+                  </h4>
 
-                    {/* Full Description (if exists) */}
-                    {service.full_description && service.full_description !== service.short_description && (
-                      <p className="text-gray-500 text-xs leading-relaxed pt-2 border-t border-white/5">
-                        {service.full_description}
-                      </p>
-                    )}
+                  {/* Service Description */}
+                  <p className="text-gray-500 leading-relaxed mb-4 line-clamp-3">
+                    {service.short_description}
+                  </p>
+
+                  {/* Learn More Link */}
+                  <div className="flex items-center text-red-400 text-sm font-semibold mt-auto">
+                    <span>Подробнее</span>
+                    <svg className="w-4 h-4 ml-2 group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
                   </div>
-
-                  {/* Bottom Gradient Bar */}
-                  <div className="h-1 bg-gradient-to-r from-purple-500 to-cyan-500 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></div>
                 </div>
               </div>
             ))}

@@ -1,54 +1,62 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 function Header({ settings }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <header className="sticky top-4 z-50 px-6 pb-4">
-      <div className="bg-slate-900/70 backdrop-blur-xl border border-slate-700/50 shadow-2xl rounded-2xl mt-4">
+    <header className="sticky top-4 z-50 px-6 pb-0">
+      <div className="bg-zinc-950/40 backdrop-blur-xl border border-zinc-800/50 shadow-2xl rounded-2xl mt-0">
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10">
           <div className="flex items-center justify-between py-4">
           {/* Logo & Brand */}
-          <div className="flex items-center space-x-3">
+          <Link to="/" className="flex items-center space-x-10 cursor-pointer">
             {settings?.logo ? (
               <img
-                src={`http://127.0.0.1:8001${settings.logo}`}
+                src={settings.logo}
                 alt="logo"
                 className="h-10 w-10 object-contain"
               />
             ) : (
-              <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-purple-500 via-blue-500 to-cyan-500 flex items-center justify-center shadow-lg shadow-purple-500/50 transition-all hover:scale-105">
+              <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-red-600 to-red-500 flex items-center justify-center shadow-lg shadow-red-500/50 transition-all hover:scale-105">
                 <span className="text-white font-bold text-xl">
                   {settings?.site_name?.[0] || "T"}
                 </span>
               </div>
             )}
             <div className="hidden sm:block">
-              <h1 className="text-lg font-bold bg-gradient-to-r from-purple-400 via-blue-400 to-cyan-400 bg-clip-text text-transparent">
+              <h1 className="text-lg font-bold bg-gradient-to-r from-red-400 to-red-200 bg-clip-text text-transparent">
                 {settings?.site_name || "TME"}
               </h1>
-              <p className="text-[10px] text-slate-400 -mt-0.5">
+              <p className="text-[10px] text-gray-500 -mt-0.5">
                 IT-инфраструктура
               </p>
             </div>
-          </div>
+          </Link>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-6">
-            <a
-              href="#services"
-              className="text-slate-300 hover:text-white font-medium transition-colors relative group"
+            <Link
+              to="/services"
+              className="text-gray-300 hover:text-white font-medium transition-colors relative group"
             >
               Услуги
-              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-500 to-cyan-500 group-hover:w-full transition-all duration-300"></span>
-            </a>
-            <a
-              href="#contacts"
-              className="text-slate-300 hover:text-white font-medium transition-colors relative group"
+              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-red-500 to-red-400 group-hover:w-full transition-all duration-300"></span>
+            </Link>
+            <Link
+              to="/about"
+              className="text-gray-300 hover:text-white font-medium transition-colors relative group"
+            >
+              О нас
+              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-red-500 to-red-400 group-hover:w-full transition-all duration-300"></span>
+            </Link>
+            <Link
+              to="/contacts"
+              className="text-gray-300 hover:text-white font-medium transition-colors relative group"
             >
               Контакты
-              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-500 to-cyan-500 group-hover:w-full transition-all duration-300"></span>
-            </a>
+              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-red-500 to-red-400 group-hover:w-full transition-all duration-300"></span>
+            </Link>
           </nav>
 
           {/* Desktop Contact Info */}
@@ -56,7 +64,7 @@ function Header({ settings }) {
             {settings?.phone && (
               <a
                 href={`tel:${settings.phone}`}
-                className="px-4 py-2 rounded-lg bg-slate-800/60 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700/50 backdrop-blur-sm transition-all text-sm"
+                className="px-4 py-2 rounded-lg bg-zinc-900/80 hover:bg-zinc-800 text-gray-300 hover:text-white border border-zinc-800/50 backdrop-blur-sm transition-all text-sm"
               >
                 {settings.phone}
               </a>
@@ -64,7 +72,7 @@ function Header({ settings }) {
             {settings?.email && (
               <a
                 href={`mailto:${settings.email}`}
-                className="px-4 py-2 rounded-lg bg-gradient-to-r from-purple-600 to-cyan-600 hover:from-purple-500 hover:to-cyan-500 text-white font-medium transition-all shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 hover:scale-105 text-sm"
+                className="px-4 py-2 rounded-lg bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 text-white font-medium transition-all shadow-lg shadow-red-500/30 hover:shadow-red-500/50 hover:scale-105 text-sm"
               >
                 {settings.email}
               </a>
@@ -74,14 +82,14 @@ function Header({ settings }) {
           {/* Mobile menu button */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden p-2 rounded-lg hover:bg-slate-700/50 transition-colors"
+            className="md:hidden p-2 rounded-lg hover:bg-zinc-800/50 transition-colors"
           >
             {isMobileMenuOpen ? (
-              <svg className="w-6 h-6 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-6 h-6 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             ) : (
-              <svg className="w-6 h-6 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-6 h-6 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
               </svg>
             )}
@@ -91,45 +99,56 @@ function Header({ settings }) {
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="md:hidden border-t border-slate-700/50 bg-slate-800/50 backdrop-blur-xl rounded-b-2xl">
+        <div className="md:hidden border-t border-zinc-800/50 bg-zinc-900/80 backdrop-blur-xl rounded-b-2xl">
           <div className="px-4 py-3 space-y-3">
             {/* Navigation Links */}
             <div className="space-y-2">
-              <a
-                href="#services"
+              <Link
+                to="/services"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="flex items-center justify-between w-full py-2.5 px-3 rounded-lg bg-slate-700/30 hover:bg-slate-700 text-slate-300 hover:text-white transition-all"
+                className="flex items-center justify-between w-full py-2.5 px-3 rounded-lg bg-zinc-800/50 hover:bg-zinc-800 text-gray-300 hover:text-white transition-all"
               >
                 <span className="font-medium">Услуги</span>
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
-              </a>
+              </Link>
               
-              <a
-                href="#contacts"
+              <Link
+                to="/about"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="flex items-center justify-between w-full py-2.5 px-3 rounded-lg bg-slate-700/30 hover:bg-slate-700 text-slate-300 hover:text-white transition-all"
+                className="flex items-center justify-between w-full py-2.5 px-3 rounded-lg bg-zinc-800/50 hover:bg-zinc-800 text-gray-300 hover:text-white transition-all"
+              >
+                <span className="font-medium">О нас</span>
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </Link>
+              
+              <Link
+                to="/contacts"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="flex items-center justify-between w-full py-2.5 px-3 rounded-lg bg-zinc-800/50 hover:bg-zinc-800 text-gray-300 hover:text-white transition-all"
               >
                 <span className="font-medium">Контакты</span>
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
-              </a>
+              </Link>
             </div>
 
             {/* Contact Info */}
-            <div className="pt-3 border-t border-slate-700/50 space-y-2">
+            <div className="pt-3 border-t border-zinc-800/50 space-y-2">
               {settings?.phone && (
                 <a
                   href={`tel:${settings.phone}`}
-                  className="flex items-center gap-3 py-2.5 px-3 rounded-lg hover:bg-slate-700/30 transition-colors"
+                  className="flex items-center gap-3 py-2.5 px-3 rounded-lg hover:bg-zinc-800/50 transition-colors"
                 >
-                  <svg className="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                   </svg>
                   <div className="flex-1">
-                    <p className="text-xs text-slate-400">Телефон</p>
+                    <p className="text-xs text-gray-500">Телефон</p>
                     <p className="text-sm text-white font-medium">{settings.phone}</p>
                   </div>
                 </a>
@@ -138,13 +157,13 @@ function Header({ settings }) {
               {settings?.email && (
                 <a
                   href={`mailto:${settings.email}`}
-                  className="flex items-center gap-3 py-2.5 px-3 rounded-lg hover:bg-slate-700/30 transition-colors"
+                  className="flex items-center gap-3 py-2.5 px-3 rounded-lg hover:bg-zinc-800/50 transition-colors"
                 >
-                  <svg className="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                   </svg>
                   <div className="flex-1">
-                    <p className="text-xs text-slate-400">Email</p>
+                    <p className="text-xs text-gray-500">Email</p>
                     <p className="text-sm text-white font-medium break-all">{settings.email}</p>
                   </div>
                 </a>
@@ -153,8 +172,8 @@ function Header({ settings }) {
 
             {/* Social Links */}
             {(settings?.whatsapp_link || settings?.telegram_link) && (
-              <div className="pt-3 border-t border-slate-700/50">
-                <p className="text-xs text-slate-400 mb-2 px-3">Связаться</p>
+              <div className="pt-3 border-t border-zinc-800/50">
+                <p className="text-xs text-gray-500 mb-2 px-3">Связаться</p>
                 <div className="flex gap-2">
                   {settings?.whatsapp_link && (
                     <a

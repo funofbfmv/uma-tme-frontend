@@ -9,7 +9,7 @@ function ContactModal({ isOpen, onClose, services }) {
     };
     if (isOpen) {
       document.addEventListener("keydown", handleEsc);
-      document.body.style.overflow = "hidden"; // Блокируем скролл
+      document.body.style.overflow = "hidden";
     }
     return () => {
       document.removeEventListener("keydown", handleEsc);
@@ -23,19 +23,19 @@ function ContactModal({ isOpen, onClose, services }) {
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
       {/* Backdrop */}
       <div
-        className="absolute inset-0 bg-slate-900/80 backdrop-blur-md"
+        className="absolute inset-0 bg-black/80 backdrop-blur-md"
         onClick={onClose}
       />
 
       {/* Modal */}
       <div className="relative w-full max-w-lg animate-in fade-in zoom-in duration-300">
         {/* Glow effect */}
-        <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-cyan-600 rounded-2xl blur opacity-30"></div>
+        <div className="absolute -inset-1 bg-gradient-to-r from-red-600/30 to-red-500/30 rounded-2xl blur"></div>
         
         {/* Modal content */}
-        <div className="relative bg-slate-800/90 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl">
+        <div className="relative bg-zinc-950/95 backdrop-blur-xl border border-zinc-800/50 rounded-2xl shadow-2xl">
           {/* Header */}
-          <div className="flex items-center justify-between p-6 border-b border-white/10">
+          <div className="flex items-center justify-between p-6 border-b border-zinc-800/50">
             <div>
               <h2 className="text-2xl font-bold text-white">
                 Оставить заявку
@@ -46,7 +46,7 @@ function ContactModal({ isOpen, onClose, services }) {
             </div>
             <button
               onClick={onClose}
-              className="p-2 rounded-lg hover:bg-slate-700/50 transition-colors group"
+              className="p-2 rounded-lg hover:bg-zinc-800/50 transition-colors group"
             >
               <svg
                 className="w-6 h-6 text-gray-400 group-hover:text-white transition-colors"

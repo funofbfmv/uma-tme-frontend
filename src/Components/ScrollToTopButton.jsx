@@ -1,6 +1,7 @@
+// src/Components/ScrollToTopButton.jsx
 import React, { useState, useEffect } from "react";
 
-function FloatingButton({ onClick }) {
+function ScrollToTopButton() {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -16,21 +17,28 @@ function FloatingButton({ onClick }) {
     return () => window.removeEventListener("scroll", toggleVisibility);
   }, []);
 
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
   if (!isVisible) return null;
 
   return (
     <button
-      onClick={onClick}
-      className="fixed bottom-6 right-6 z-50 group"
-      aria-label="Оставить заявку"
+      onClick={scrollToTop}
+      className="fixed bottom-6 left-6 z-50 group"
+      aria-label="Вернуться наверх"
     >
       {/* Glow effect */}
       <div className="absolute -inset-1 bg-gradient-to-r from-red-600 to-red-500 rounded-full blur opacity-50 group-hover:opacity-75 transition-opacity"></div>
       
       {/* Button */}
-      <div className="relative w-16 h-16 bg-gradient-to-r from-red-600 to-red-500 rounded-full flex items-center justify-center shadow-2xl shadow-red-500/40 group-hover:scale-110 transition-transform">
+      <div className="relative w-14 h-14 bg-gradient-to-r from-red-600 to-red-500 rounded-full flex items-center justify-center shadow-2xl shadow-red-500/40 group-hover:scale-110 transition-transform">
         <svg
-          className="w-8 h-8 text-white"
+          className="w-6 h-6 text-white"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -39,17 +47,17 @@ function FloatingButton({ onClick }) {
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth={2}
-            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+            d="M5 10l7-7m0 0l7 7m-7-7v18"
           />
         </svg>
       </div>
 
       {/* Tooltip */}
-      <div className="absolute right-full mr-4 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+      <div className="absolute left-full ml-4 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
         <div className="bg-zinc-900 text-white text-sm font-medium px-3 py-2 rounded-lg whitespace-nowrap shadow-xl border border-zinc-800">
-          Оставить заявку
-          <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-full">
-            <div className="border-8 border-transparent border-l-zinc-900"></div>
+          Наверх
+          <div className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-full">
+            <div className="border-8 border-transparent border-r-zinc-900"></div>
           </div>
         </div>
       </div>
@@ -57,4 +65,4 @@ function FloatingButton({ onClick }) {
   );
 }
 
-export default FloatingButton;
+export default ScrollToTopButton;

@@ -8,21 +8,21 @@ export default defineConfig({
     tailwindcss(),
   ],
   server: {
-    host: true, // Доступ из сети (0.0.0.0)
+    host: true, 
     port: 5173,
     strictPort: false,
     allowedHosts: [
-      '.trycloudflare.com', // Все поддомены Cloudflare
+      '.trycloudflare.com', 
       'localhost',
-      '.ngrok.io', // На случай если используешь ngrok
+      '.ngrok.io', 
     ],
     proxy: {
       "/api": {
-        target: "http://127.0.0.1:8001", 
+        target: "http://127.0.0.1:8000", 
         changeOrigin: true,
       },
       "/media": {
-        target: "http://127.0.0.1:8001",
+        target: "http://127.0.0.1:8000",
         changeOrigin: true,
       },
     },

@@ -4,7 +4,7 @@ import { createLead } from "../api/api";
 function ContactForm({ services, onSuccess }) {
   const [form, setForm] = useState({
     name: "",
-    phone: "",
+    phone: "+993 ",
     email: "",
     service: "",
     message: "",
@@ -13,13 +13,70 @@ function ContactForm({ services, onSuccess }) {
   const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
 
+  // Функция форматирования номера телефона
+  const formatPhoneNumber = (value) => {
+    // Убираем все кроме цифр
+    const cleaned = value.replace(/\D/g, "");
+    
+    // Всегда начинаем с 993
+    let formatted = "+993 ";
+    
+    // Берем только цифры после 993 (максимум 8)
+    const digits = cleaned.startsWith("993") 
+      ? cleaned.slice(3, 11) // 8 цифр после 993
+      : cleaned.slice(0, 8);
+    
+    // Форматируем: XX XX XX XX
+    if (digits.length > 0) {
+      formatted += digits.slice(0, 2);
+    }
+    if (digits.length > 2) {
+      formatted += " " + digits.slice(2, 4);
+    }
+    if (digits.length > 4) {
+      formatted += " " + digits.slice(4, 6);
+    }
+    if (digits.length > 6) {
+      formatted += " " + digits.slice(6, 8);
+    }
+    
+    return formatted;
+  };
+
+  // Обработчик изменения телефона
+  const handlePhoneChange = (e) => {
+    const input = e.target.value;
+    
+    // Если пользователь пытается удалить +993, возвращаем
+    if (input.length < 5) {
+      setForm((prev) => ({ ...prev, phone: "+993 " }));
+      return;
+    }
+    
+    const formatted = formatPhoneNumber(input);
+    setForm((prev) => ({ ...prev, phone: formatted }));
+  };
+
   function handleChange(e) {
     const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
+    
+    // Для телефона используем специальную обработку
+    if (name === "phone") {
+      handlePhoneChange(e);
+    } else {
+      setForm((prev) => ({ ...prev, [name]: value }));
+    }
   }
 
   async function handleSubmit(e) {
     e.preventDefault();
+    
+    // Проверка что телефон полностью заполнен (должно быть 17 символов: +993 XX XX XX XX)
+    if (form.phone.replace(/\s/g, "").length < 12) {
+      setError("Пожалуйста, введите полный номер телефона");
+      return;
+    }
+    
     setLoading(true);
     setSuccess(null);
     setError(null);
@@ -35,7 +92,7 @@ function ContactForm({ services, onSuccess }) {
       setSuccess("Заявка отправлена! Мы свяжемся с вами.");
       setForm({
         name: "",
-        phone: "",
+        phone: "+993 ",
         email: "",
         service: "",
         message: "",
@@ -65,7 +122,7 @@ function ContactForm({ services, onSuccess }) {
           required
           value={form.name}
           onChange={handleChange}
-          className="w-full rounded-lg bg-slate-900/50 border border-white/10 px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+          className="w-full rounded-lg bg-zinc-950/50 border border-white/10 px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all"
           placeholder="Введите ваше имя"
         />
       </div>
@@ -78,9 +135,11 @@ function ContactForm({ services, onSuccess }) {
           required
           value={form.phone}
           onChange={handleChange}
-          className="w-full rounded-lg bg-slate-900/50 border border-white/10 px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
-          placeholder="+998 __ ___ __ __"
+          className="w-full rounded-lg bg-zinc-950/50 border border-white/10 px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all"
+          placeholder="+993 XX XX XX XX"
+          maxLength={17}
         />
+        <p className="text-xs text-gray-500">Формат: +993 61 00 00 00</p>
       </div>
 
       <div className="space-y-2">
@@ -90,7 +149,7 @@ function ContactForm({ services, onSuccess }) {
           name="email"
           value={form.email}
           onChange={handleChange}
-          className="w-full rounded-lg bg-slate-900/50 border border-white/10 px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+          className="w-full rounded-lg bg-zinc-950/50 border border-white/10 px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all"
           placeholder="example@email.com"
         />
       </div>
@@ -102,11 +161,11 @@ function ContactForm({ services, onSuccess }) {
             name="service"
             value={form.service}
             onChange={handleChange}
-            className="w-full rounded-lg bg-slate-900/50 border border-white/10 px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+            className="w-full rounded-lg bg-zinc-950/50 border border-white/10 px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all"
           >
-            <option value="" className="bg-slate-900">Не выбрано</option>
+            <option value="" className="bg-zinc-950">Не выбрано</option>
             {services.map((s) => (
-              <option key={s.id} value={s.id} className="bg-slate-900">
+              <option key={s.id} value={s.id} className="bg-zinc-950">
                 {s.title}
               </option>
             ))}
@@ -121,7 +180,7 @@ function ContactForm({ services, onSuccess }) {
           rows={4}
           value={form.message}
           onChange={handleChange}
-          className="w-full rounded-lg bg-slate-900/50 border border-white/10 px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all resize-none"
+          className="w-full rounded-lg bg-zinc-950/50 border border-white/10 px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all resize-none"
           placeholder="Расскажите о вашем проекте..."
         />
       </div>
@@ -141,7 +200,7 @@ function ContactForm({ services, onSuccess }) {
       <button
         type="submit"
         disabled={loading}
-        className="w-full py-3.5 rounded-lg bg-gradient-to-r from-purple-600 to-cyan-600 hover:from-purple-500 hover:to-cyan-500 text-white font-semibold disabled:opacity-60 disabled:cursor-not-allowed transition-all transform hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-purple-500/30"
+        className="w-full py-3.5 rounded-lg bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 text-white font-semibold disabled:opacity-60 disabled:cursor-not-allowed transition-all transform hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-red-500/30"
       >
         {loading ? "Отправка..." : "Отправить заявку"}
       </button>
