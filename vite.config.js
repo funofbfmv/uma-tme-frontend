@@ -15,14 +15,15 @@ export default defineConfig({
       '.trycloudflare.com', 
       'localhost',
       '.ngrok.io', 
+      'tm-engineering.online',
     ],
     proxy: {
       "/api": {
-        target: "http://127.0.0.1:8000", 
+        target: process.env.VITE_API_URL || "http://127.0.0.1:8000", 
         changeOrigin: true,
       },
       "/media": {
-        target: "http://127.0.0.1:8000",
+        target: process.env.VITE_API_URL || "http://127.0.0.1:8000",
         changeOrigin: true,
       },
     },
